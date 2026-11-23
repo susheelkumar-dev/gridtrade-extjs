@@ -1,0 +1,31 @@
+{
+  "name": "gridtrade-contracts-extjs",
+  "version": "1.0.0",
+  "private": true,
+  "description": "GridTrade Contracts: an Ext JS 7.2 ETRM single-page app (contracts, trades, time series, data ingestion, audit trail) with a zero-dependency Node API. Source app for an Ext JS to React migration agent.",
+  "author": "Susheel Kumar",
+  "license": "MIT",
+  "scripts": {
+    "setup": "node tools/cmd-setup.js",
+    "build": "node tools/sencha.js app build production",
+    "build:debug": "node tools/sencha.js app build testing",
+    "start": "node server/server.js",
+    "start:demo": "node server/server.js --demo-auth",
+    "dev": "npm run build:debug && node server/server.js",
+    "reset-data": "node -e \"require('fs').rmSync('server/data/db.json',{force:true});console.log('Demo data will be re-seeded on next start')\"",
+    "test:api": "node server/selftest.js"
+  },
+  "dependencies": {
+    "@sencha/ext": "7.2.0",
+    "@sencha/ext-core": "7.2.0",
+    "@sencha/ext-classic": "7.2.0",
+    "@sencha/ext-classic-theme-triton": "7.2.0",
+    "@sencha/ext-charts": "7.2.0",
+    "@sencha/ext-font-awesome": "7.2.0",
+    "@sencha/ext-ux": "7.2.0"
+  },
+  "devDependencies": {
+    "@sencha/cmd": "7.2.84"
+  },
+  "engines": { "node": ">=18" }
+}

@@ -1,0 +1,8 @@
+{
+  "frameworks": { "ext": "node_modules/@sencha/ext" },
+  "build": { "dir": "${workspace.dir}/build" },
+  "packages": {
+    "dir": "${workspace.dir}/packages/local,${workspace.dir}/node_modules/@sencha/ext-${toolkit.name},${workspace.dir}/node_modules/@sencha/ext-${toolkit.name}-theme-base,${workspace.dir}/node_modules/@sencha/ext-${toolkit.name}-theme-neutral,${workspace.dir}/node_modules/@sencha/ext-${toolkit.name}-theme-neptune,${workspace.dir}/node_modules/@sencha/ext-${toolkit.name}-theme-triton,${workspace.dir}/node_modules/@sencha/ext-charts,${workspace.dir}/node_modules/@sencha/ext-ux,${workspace.dir}/node_modules/@sencha/ext-font-awesome,${workspace.dir}/node_modules/@sencha/ext-font-ext",
+    "extract": "${workspace.dir}/packages/remote"
+  }
+}

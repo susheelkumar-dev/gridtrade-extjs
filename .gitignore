@@ -1,0 +1,12 @@
+node_modules/
+build/
+server/data/
+# Sencha Cmd generated files (development bootstrap)
+web/bootstrap.*
+web/classic.json
+web/modern.json
+web/sencha-error-*.log
+web/.sencha/
+packages/remote/
+*.log
+.env

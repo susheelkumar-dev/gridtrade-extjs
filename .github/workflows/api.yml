@@ -1,0 +1,62 @@
+name: gridtrade-api
+
+# Self-test the zero-dependency API -> build the image -> push to GitHub Container Registry -> roll the Azure
+# Container App (only when the Azure variables/secrets are configured).
+
+on:
+  push:
+    branches: [main]
+    paths: ["server/**", "Dockerfile", ".github/workflows/api.yml"]
+  pull_request:
+    paths: ["server/**", "Dockerfile", ".github/workflows/api.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 22}
+      - run: node server/selftest.js
+
+  image:
+    needs: test
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    outputs:
+      image: ${{ steps.meta.outputs.image }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: meta
+        run: echo "image=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/gridtrade-api:${GITHUB_SHA::12}" >> "$GITHUB_OUTPUT"
+      - uses: docker/login-action@v3
+        with: {registry: ghcr.io, username: "${{ github.actor }}", password: "${{ secrets.GITHUB_TOKEN }}"}
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ steps.meta.outputs.image }}
+            ghcr.io/${{ github.repository_owner }}/gridtrade-api:latest
+
+  deploy:
+    needs: image
+    if: github.ref == 'refs/heads/main' && vars.AZURE_RESOURCE_GROUP != ''
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - run: |
+          az extension add --name containerapp --upgrade --only-show-errors
+          az containerapp update --name gridtrade-api --resource-group "${{ vars.AZURE_RESOURCE_GROUP }}" \
+            --image "${{ needs.image.outputs.image }}" --only-show-errors --output none

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Sencha Cmd build entry. Skips the PhantomJS image slicer (only needed for IE8/9-era themes). -->
+<project name="GT" default=".help">
+    <property name="skip.slice" value="1"/>
+    <import file="${cmd.dir}/ant/build/app/build-impl.xml"/>
+</project>

@@ -1,0 +1,37 @@
+{
+  "name": "GT",
+  "namespace": "GT",
+  "version": "1.0.0.0",
+  "framework": "ext",
+  "toolkit": "classic",
+  "theme": "theme-triton",
+  "requires": ["font-awesome", "charts", "ux"],
+  "indexHtmlPath": "index.html",
+  "classpath": ["app"],
+  "overrides": ["overrides"],
+  "sass": {
+    "namespace": "GT",
+    "etc": ["sass/etc/all.scss"],
+    "var": ["sass/var.scss"],
+    "src": ["sass/src.scss"]
+  },
+  "js": [{ "path": "app.js", "bundle": true }],
+  "css": [{ "path": "${build.out.css.path}", "bundle": true, "exclude": ["fashion"] }],
+  "loader": { "cache": false, "cacheParam": "_dc" },
+  "production": {
+    "output": { "appCache": { "enable": false } },
+    "loader": { "cache": "${build.timestamp}" },
+    "cache": { "enable": true },
+    "compressor": { "type": "yui" }
+  },
+  "testing": {},
+  "development": { "watch": { "delay": 250 } },
+  "bootstrap": { "base": "${app.dir}", "microloader": "bootstrap.js", "css": "bootstrap.css" },
+  "output": { "base": "${workspace.build.dir}/${build.environment}/${app.name}", "appCache": { "enable": false } },
+  "cache": { "enable": false, "deltas": true },
+  "appCache": { "cache": ["index.html"], "network": ["*"], "fallback": [] },
+  "resources": [{ "path": "resources", "output": "shared" }],
+  "archivePath": "archive",
+  "ignore": ["(^|/)CVS(/?$|/.*?$)"],
+  "id": "6f1d2a4c-8e3b-4c5d-9a7e-2b1c0d9e8f71"
+}

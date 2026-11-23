@@ -1,0 +1,16 @@
+# Render Blueprint (free plan): the GridTrade API container. The demo data reseeds on every start.
+services:
+  - type: web
+    name: gridtrade-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: GT_JWT_SECRET
+        sync: false
+      - key: GT_SEED_PASSWORD
+        sync: false
+      - key: GT_SEED_PASSWORDS
+        sync: false
